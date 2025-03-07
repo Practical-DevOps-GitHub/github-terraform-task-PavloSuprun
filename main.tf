@@ -23,10 +23,14 @@ resource "github_repository_collaborator" "collaborator" {
 }
 
 resource "github_branch" "develop" {
-  repository   = data.github_repository.repo.name
-  branch       = "develop"
+  repository = data.github_repository.repo.name
+  branch     = "develop"
   source_branch = "main"
-  default      = true
+}
+
+resource "github_branch_default" "default" {
+  repository = data.github_repository.repo.name
+  branch     = github_branch.develop.branch
 }
 
 resource "github_branch_protection" "main" {
